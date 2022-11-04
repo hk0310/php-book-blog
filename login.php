@@ -8,7 +8,12 @@
         }
 
         if(empty($error)) {
-            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $error = CheckLogin($db);
+        }
+    }
+
+    function CheckLogin($db) {
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $query = "SELECT * FROM Users WHERE username = :username";
@@ -18,13 +23,19 @@
 
             $user = $statement->fetch();
 
+            if(empty($user)) {
+                return "Username and password do not match.";
+            }
+
             if(password_verify($password, $user['password'])) {
                 session_start();
                 $_SESSION['user'] = $user;
                 header("Location: index.php");
                 exit();
             }
-        }
+            else {
+                return "Username and password do not match.";
+            }
     }
 ?>
 
