@@ -35,14 +35,13 @@
             return;
         }
         
-        $query = "INSERT INTO Users (username, password, role, email, birthdate) VALUES (:username, :password, 0, :email, :birthdate)";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':username', $username);
-        $statement->bindValue(':password', $password);
-        $statement->bindValue(':email', $email);
-        $statement->bindValue(':birthdate', $birthdate);
-        
         try {
+            $query = "INSERT INTO Users (username, password, role, email, birthdate) VALUES (:username, :password, 0, :email, :birthdate)";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':username', $username);
+            $statement->bindValue(':password', $password);
+            $statement->bindValue(':email', $email);
+            $statement->bindValue(':birthdate', $birthdate);
             $statement->execute();
         }
         catch(Exception $e) {
