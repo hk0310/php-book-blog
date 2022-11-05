@@ -54,11 +54,16 @@
             <p><?= $error ?></p>
         <?php endif ?>
         <fieldset>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <p>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </p>
 
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" required>
+            <p>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required>
+            </p>
+            
             <p>
                 <button type="submit" value="Login" name="button">Log In</button>
             </p>

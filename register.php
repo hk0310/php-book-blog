@@ -86,26 +86,34 @@
             </ul>
         <?php endif ?>
         <fieldset>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-            <?php if(isset($additionalErrors['username'])): ?>
-                <p><?= $additionalErrors['username'] ?></p>
-            <?php endif ?>
+            <p>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <?php if(isset($additionalErrors['username'])): ?>
+                    <p><?= $additionalErrors['username'] ?></p>
+                <?php endif ?>
+            </p>
 
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required> 
-            <?php if(isset($additionalErrors['email'])): ?>
-                <p><?= $additionalErrors['email'] ?></p>
-            <?php endif ?>
+            <p>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required> 
+                <?php if(isset($additionalErrors['email'])): ?>
+                    <p><?= $additionalErrors['email'] ?></p>
+                <?php endif ?>
+            </p>
 
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" required>
+            <p>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required>
+            </p>
 
-            <label for="passwordConfirm">Re-enter Password</label>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" required>
-            <?php if(isset($additionalErrors['password'])): ?>
-                <p><?= $additionalErrors['password'] ?></p>
-            <?php endif ?>
+            <p>
+                <label for="passwordConfirm">Re-enter Password</label>
+                <input id="passwordConfirm" name="passwordConfirm" type="password" required>
+                <?php if(isset($additionalErrors['password'])): ?>
+                    <p><?= $additionalErrors['password'] ?></p>
+                <?php endif ?>
+            </p>
 
             <p>
                 <button type="submit" value="register" name="button">Register</button>
