@@ -62,6 +62,8 @@
     <title>Register</title>
 </head>
 <body>
+    <?php require("header.php") ?>
+
     <form action="register.php" method="post">
         <?php if($errorFlag): ?>
             <p>The following fields were invalid:</p>
@@ -75,19 +77,19 @@
         <?php endif ?>
         <fieldset>
             <label for="username">Username</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" required>
             <?php if(!empty($userDuplicate)): ?>
                 <p><?= $userDuplicate ?></p>
             <?php endif ?>
 
             <label for="email">Email</label>
-            <input id="email" name="email" type="email"> 
+            <input id="email" name="email" type="email" required> 
 
             <label for="password">Password</label>
-            <input id="password" name="password" type="password">
+            <input id="password" name="password" type="password" required>
 
             <label for="birthdate">Date of Birth</label>
-            <input id="birthdate" name="birthdate" type="date">
+            <input id="birthdate" name="birthdate" type="date" required>
 
             <p>
                 <button type="submit" value="register" name="button">Register</button>
