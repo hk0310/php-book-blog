@@ -1,5 +1,5 @@
 <?php
-    require("connect.php");
+    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
     session_start();
 ?>
 
@@ -11,7 +11,7 @@
     <title>The Keepers</title>
 </head>
 <body>
-    <?php require("header.php"); ?>
+    <?php require("misc" . DIRECTORY_SEPARATOR . "header.php"); ?>
     <?php print_r($_SESSION); ?>
 </body>
 </html>

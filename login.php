@@ -1,5 +1,5 @@
 <?php
-    require('connect.php');
+    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
 
     $error = "";
     if(isset($_POST['button'])) {
@@ -47,7 +47,7 @@
     <title>Login</title>
 </head>
 <body>
-<?php require("header.php") ?>
+<?php require("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
 
 <form action="login.php" method="post">
         <?php if(!empty($error)): ?>

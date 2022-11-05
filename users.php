@@ -1,5 +1,5 @@
 <?php
-    require("connect.php");
+    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
     session_start();
 
     if (!isset($_SESSION['user'])) {
@@ -31,7 +31,7 @@
 
 <body>
     <div class="container">
-        <?php require("header.php") ?>
+        <?php require("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
         <h3>Manage Users</h3>
         <div class="accordion accordion-flush" id="accordionFlush">
             <?php while ($row = $statement->fetch()) : ?>

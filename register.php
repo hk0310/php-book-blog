@@ -1,5 +1,5 @@
 <?php
-    require("connect.php");
+    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
 
     $errorFlag = false;
     $fieldsToValidate = ['username' => ['isEmpty' => false, 'name' => 'Username'],
@@ -72,7 +72,7 @@
     <title>Register</title>
 </head>
 <body>
-    <?php require("header.php") ?>
+    <?php require("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
 
     <form action="register.php" method="post">
         <?php if($errorFlag): ?>

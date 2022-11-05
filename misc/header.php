@@ -1,6 +1,6 @@
 <nav>
     <ul>
-        <li>Home</li>
+        <li><a href="index.php">Home</a></li>
         <li>Browse</li>
         <li>About Us</li>
     </ul>
