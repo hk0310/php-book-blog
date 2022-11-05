@@ -49,7 +49,7 @@
             return $errors;
         }
 
-        $query = "INSERT INTO Users (username, password, role, email) VALUES (:username, :password, 1, :email)";
+        $query = "INSERT INTO Users (username, password, role_id, email) VALUES (:username, :password, 1, :email)";
         $statement = $db->prepare($query);
 
         $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 15]);
