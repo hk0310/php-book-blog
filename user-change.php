@@ -11,50 +11,6 @@
         header("Location: index.php");
         exit();
     } 
-
-    if(isset($_POST['button'])) {
-        $errors = [
-            'username' => ["isEmpty" => false, "otherErrors" => ""],
-            'email' => ["isEmpty" => false, "otherErrors" => ""],
-            'password' => ["isEmpty" => false, "otherErrors" => ""],
-            'passwordConfirm' => ["isEmpty" => false, "otherErrors" => ""],
-        ];
-        
-        $errorFlag = false;
-
-        foreach($errors as $field => $error) {
-            if(!isset($_POST[$field]) || (empty(trim($_POST[$field]))))
-            {
-                $errorFlag = true;
-                $errors[$field]['isEmpty'] = true;
-            }
-        }
-
-        if(!$errorFlag) {
-            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $passwordConfirm = filter_input(INPUT_POST, "passwordConfirm", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-
-            if(!$email) {
-                $errors['email']['otherErrors'] = "The provide email is invalid.";
-            }
-
-            if($password !== $passwordConfirm) {
-                $errors['passwordConfirm']['otherErrors'] = "The passwords do not match.";
-            }
-
-            $userAvailableQuery = "SELECT username FROM Users";
-            $userAvailableStatement = $db->prepare($userAvailableQuery);
-            $userAvailableStatement->execute();
-
-            while($usernameDB = $userAvailableStatement->fetch()) {
-                if($username == $usernameDB['username']) {
-                    $errors['username'] = "Username has already been taken.";
-                }
-            }
-        }
-    }
     
     if(isset($_GET['id'])) {
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -100,6 +56,15 @@
             </p>
 
             <p>
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                    <option value="1" <?= $updateRow['role_id'] == 1 ? "selected" : "" ?>>Regular user</option>
+                    <option value="2" <?= $updateRow['role_id'] == 2 ? "selected" : "" ?>>Administrator</option>
+                    <option value="3" <?= $updateRow['role_id'] == 3 ? "selected" : "" ?>>Owner</option>
+                </select>
+            </p>
+
+            <p>
                 <label for="password">Set new password</label>
                 <input id="password" name="password" type="password">
             </p>
@@ -109,11 +74,12 @@
                 <input id="passwordConfirm" name="passwordConfirm" type="password">
             </p>
 
-            <input name="id" type="hidden" value="<?= $updateRow['user_id'] ?>">
+            <input name="id" type="hidden" value="<?= $updateRow['user_id'] ?>" readonly>
         </fieldset>
 
         <p>
             <button type="submit" value="update" name="command">Update</button>
+            <button type="submit" value="delete" name="command" onclick="return confirm('Do you really want to delete this user?')">Delete</button>
         </p>
     </form>
 </body>
