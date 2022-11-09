@@ -92,6 +92,12 @@
         }
     }
     elseif($command == "update") {
+        // If the user is not an owner, they are not allowed to update user information.
+        if($_SESSION['user']['role_id'] != 3) {
+            header("Location: index.php");
+            exit();
+        }
+
         foreach($errors as $field => $info) {
             if($info['isEmpty'] && ($field != 'password' && $field != 'passwordConfirm')) {
                 $errorFlag = true;
@@ -172,7 +178,7 @@
                 }
 
                 if(!$errorFlag) {
-                    $updateQueryPass = "UPDATE Users SET username = :username, email = :email, password = :password WHERE user_id = :id";
+                    $updateQueryPass = "UPDATE Users SET username = :username, role_id = :role, email = :email, password = :password WHERE user_id = :id";
                     $updateStatementPass = $db->prepare($updateQueryPass);
 
                     $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 15]);
@@ -194,6 +200,12 @@
         }
     }
     elseif($command == "delete") {
+        // If the user is not an owner, they are not allowed to delete users.
+        if($_SESSION['user']['role_id'] != 3) {
+            header("Location: index.php");
+            exit();
+        }
+
         // Validates the POSTed user_id.
         if(!isset($_POST['id'])) {
             $errorFlag = true;
