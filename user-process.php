@@ -82,7 +82,7 @@
             $createStatement->bindValue(':email', $email);
             $createStatement->execute();
 
-            if(isset($_SESSION['user']) && $_SESSION['user']['role_id'] === 3) {
+            if(isset($_SESSION['username']) && $_SESSION['role_id'] === 3) {
                 header("Location: users.php");
                 exit();
             }
@@ -93,7 +93,7 @@
     }
     elseif($command == "update") {
         // If the user is not an owner, they are not allowed to update user information.
-        if($_SESSION['user']['role_id'] != 3) {
+        if($_SESSION['role_id'] != 3) {
             header("Location: index.php");
             exit();
         }
@@ -201,7 +201,7 @@
     }
     elseif($command == "delete") {
         // If the user is not an owner, they are not allowed to delete users.
-        if($_SESSION['user']['role_id'] != 3) {
+        if($_SESSION['role_id'] != 3) {
             header("Location: index.php");
             exit();
         }

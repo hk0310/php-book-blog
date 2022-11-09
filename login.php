@@ -29,7 +29,9 @@
 
         if(password_verify($password, $user['password'])) {
             session_start();
-            $_SESSION['user'] = $user;
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role_id'] = $user['role_id'];
+            $_SESSION['email'] = $user['email'];
             header("Location: index.php");
             exit();
         }

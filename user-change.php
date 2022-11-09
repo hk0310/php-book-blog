@@ -2,12 +2,12 @@
     require("misc" . DIRECTORY_SEPARATOR . "connect.php");
     session_start();
 
-    if (!isset($_SESSION['user'])) {
+    if (!isset($_SESSION['username'])) {
         header("Location: index.php");
         exit();
     }
 
-    if (!$_SESSION['user']['role_id'] === 3) {
+    if (!$_SESSION['role_id'] === 3) {
         header("Location: index.php");
         exit();
     } 
