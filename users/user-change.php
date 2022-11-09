@@ -1,14 +1,15 @@
 <?php 
-    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
+    require(".." . DS . "constants.php");
+    require(CONNECT_PATH);
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     }
 
     if (!$_SESSION['role_id'] === 3) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     } 
     
@@ -40,7 +41,7 @@
     <title>Update User Info</title>
 </head>
 <body>
-    <?php include("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
+    <?php include(HEADER_PATH) ?>
     <h3>Update the Information for <?= $updateRow['username'] ?></h3>
             
     <form action="user-process.php" method="post">

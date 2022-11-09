@@ -1,9 +1,10 @@
 <?php
-    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
+    require(".." . DS . "constants.php");
+    require(CONNECT_PATH);
     session_start();
 
     if(!isset($_POST['command'])) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     }
 
@@ -87,14 +88,14 @@
                 exit();
             }
             
-            header("Location: login.php");
+            header("Location: /Project/auth/login.php");
             exit();
         }
     }
     elseif($command == "update") {
         // If the user is not an owner, they are not allowed to update user information.
         if($_SESSION['role_id'] != 3) {
-            header("Location: index.php");
+            header("Location: /Project/index.php");
             exit();
         }
 
@@ -202,7 +203,7 @@
     elseif($command == "delete") {
         // If the user is not an owner, they are not allowed to delete users.
         if($_SESSION['role_id'] != 3) {
-            header("Location: index.php");
+            header("Location: /Project/index.php");
             exit();
         }
 
@@ -239,7 +240,8 @@
     <title>Error</title>
 </head>
 <body>
-    <?php include("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
+    <?php include(HEADER_PATH) ?>
+
     <?php if($command == 'create'): ?>
         <h2>Error creating account. Please fix the following errors and try again.</h2>
 

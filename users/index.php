@@ -1,14 +1,15 @@
 <?php
-    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
+    require(".." . DS . "constants.php");
+    require(CONNECT_PATH);
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     }
 
     if (!$_SESSION['role_id'] === 3) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     } 
     else {
@@ -31,7 +32,7 @@
 
 <body>
     <div class="container">
-        <?php include("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
+        <?php include(HEADER_PATH) ?>
         <h3>Manage Users</h3>
         <p><a href="user-create.php">Add User</a></p>
 

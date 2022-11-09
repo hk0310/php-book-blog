@@ -1,14 +1,15 @@
 <?php
-    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
+    require(".." . DS . "constants.php");
+    require(CONNECT_PATH);
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     }
 
     if (!$_SESSION['role_id'] === 3) {
-        header("Location: index.php");
+        header("Location: /Project/index.php");
         exit();
     } 
 ?>
@@ -21,7 +22,7 @@
     <title>User Create</title>
 </head>
 <body>
-<?php require("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
+<?php require(HEADER_PATH) ?>
 
 <form action="user-process.php" method="post">
     <fieldset>
