@@ -1,5 +1,5 @@
 <?php
-    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
+    require(".." . DIRECTORY_SEPARATOR . "constants.php");
 ?>
 
 <!DOCTYPE html>
@@ -10,9 +10,9 @@
     <title>Register</title>
 </head>
 <body>
-    <?php require("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
+    <?php require(HEADER_PATH) ?>
 
-    <form action="user-process.php" method="post">
+    <form action="/Project/users/user-process.php" method="post">
         <fieldset>
             <p>
                 <label for="username">Username</label>

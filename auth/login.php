@@ -1,5 +1,6 @@
 <?php
-    require("misc" . DIRECTORY_SEPARATOR . "connect.php");
+    require(".." . DIRECTORY_SEPARATOR . "constants.php");
+    require(CONNECT_PATH);
 
     $error = "";
     if(isset($_POST['button'])) {
@@ -32,7 +33,7 @@
             $_SESSION['username'] = $user['username'];
             $_SESSION['role_id'] = $user['role_id'];
             $_SESSION['email'] = $user['email'];
-            header("Location: index.php");
+            header("Location: /Project");
             exit();
         }
         else {
@@ -49,7 +50,7 @@
     <title>Login</title>
 </head>
 <body>
-<?php require("misc" . DIRECTORY_SEPARATOR . "header.php") ?>
+<?php require(HEADER_PATH) ?>
 
 <form action="login.php" method="post">
         <?php if(!empty($error)): ?>
