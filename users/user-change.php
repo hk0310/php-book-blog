@@ -1,15 +1,15 @@
 <?php 
-    require(".." . DS . "constants.php");
+    require(".." . DIRECTORY_SEPARATOR . "constants.php");
     require(CONNECT_PATH);
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        header("Location: /Project/index.php");
+        header("Location: /Project");
         exit();
     }
 
     if (!$_SESSION['role_id'] === 3) {
-        header("Location: /Project/index.php");
+        header("Location: /Project");
         exit();
     } 
     

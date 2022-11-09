@@ -1,10 +1,10 @@
 <?php
-    require(".." . DS . "constants.php");
+    require(".." . DIRECTORY_SEPARATOR . "constants.php");
     require(CONNECT_PATH);
     session_start();
 
     if(!isset($_POST['command'])) {
-        header("Location: /Project/index.php");
+        header("Location: /Project");
         exit();
     }
 
@@ -95,7 +95,7 @@
     elseif($command == "update") {
         // If the user is not an owner, they are not allowed to update user information.
         if($_SESSION['role_id'] != 3) {
-            header("Location: /Project/index.php");
+            header("Location: /Project");
             exit();
         }
 
@@ -203,7 +203,7 @@
     elseif($command == "delete") {
         // If the user is not an owner, they are not allowed to delete users.
         if($_SESSION['role_id'] != 3) {
-            header("Location: /Project/index.php");
+            header("Location: /Project");
             exit();
         }
 
