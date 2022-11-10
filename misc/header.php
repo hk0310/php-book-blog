@@ -1,6 +1,6 @@
 <nav>
     <ul>
-        <li><a href="/Project/index.php">Home</a></li>
+        <li><a href="<?= BASE ?>/index.php">Home</a></li>
         <li>Browse</li>
         <li>About Us</li>
     </ul>
@@ -11,13 +11,13 @@
 
     <ul>
         <?php if(!isset($_SESSION['username'])): ?>
-            <li><a href="/Project/auth/login.php">Login</a></li>
-            <li><a href="/Project/auth/register.php">Register</a></li>
+            <li><a href="<?= BASE ?>/auth/login.php">Login</a></li>
+            <li><a href="<?= BASE ?>/auth/register.php">Register</a></li>
         <?php else: ?>
             <?php if($_SESSION['role_id'] == 3): ?>
-                <li><a href="/Project/Users/">Users</a></li>
+                <li><a href="<?= BASE ?>/Users/">Users</a></li>
             <?php endif ?>
-            <li><a href="/Project/auth/logout.php">Logout</a></li>
+            <li><a href="<?= BASE ?>/auth/logout.php">Logout</a></li>
         <?php endif ?>
     </ul>
 </nav>

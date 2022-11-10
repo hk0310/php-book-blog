@@ -4,7 +4,7 @@
     session_start();
 
     if(!isset($_POST['command'])) {
-        header("Location: /Project");
+        header("Location: " . BASE);
         exit();
     }
 
@@ -84,18 +84,18 @@
             $createStatement->execute();
 
             if(isset($_SESSION['username']) && $_SESSION['role_id'] === 3) {
-                header("Location: users.php");
+                header("Location: index.php");
                 exit();
             }
             
-            header("Location: /Project/auth/login.php");
+            header("Location: " . BASE . "/auth/login.php");
             exit();
         }
     }
     elseif($command == "update") {
         // If the user is not an owner, they are not allowed to update user information.
         if($_SESSION['role_id'] != 3) {
-            header("Location: /Project");
+            header("Location: " . BASE);
             exit();
         }
 
@@ -163,7 +163,7 @@
                 $updateStatementNoPass->bindValue(':id', $id);
                 $updateStatementNoPass->execute();
 
-                header("Location: users.php");
+                header("Location: index.php");
                 exit();
             }
             // If both password and passwordConfirm fields have inputs then updates the user information with the provided information 
@@ -191,7 +191,7 @@
                     $updateStatementPass->bindValue(':id', $id);
                     $updateStatementPass->execute();
 
-                    header("Location: users.php");
+                    header("Location: index.php");
                     exit();
                 }
             }
@@ -203,7 +203,7 @@
     elseif($command == "delete") {
         // If the user is not an owner, they are not allowed to delete users.
         if($_SESSION['role_id'] != 3) {
-            header("Location: /Project");
+            header("Location: " . BASE);
             exit();
         }
 
@@ -225,7 +225,7 @@
             $deleteStatement->bindValue(":user_id", $id);
             $deleteStatement->execute();
 
-            header("Location: users.php");
+            header("Location: index.php");
             exit();
         }
     }

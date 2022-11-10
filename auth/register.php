@@ -12,7 +12,7 @@
 <body>
     <?php require(HEADER_PATH) ?>
 
-    <form action="/Project/users/user-process.php" method="post">
+    <form action="<?= BASE ?>/users/user-process.php" method="post">
         <fieldset>
             <p>
                 <label for="username">Username</label>

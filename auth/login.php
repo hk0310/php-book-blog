@@ -33,7 +33,7 @@
             $_SESSION['username'] = $user['username'];
             $_SESSION['role_id'] = $user['role_id'];
             $_SESSION['email'] = $user['email'];
-            header("Location: /Project");
+            header("Location: " . BASE);
             exit();
         }
         else {

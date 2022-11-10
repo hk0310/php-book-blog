@@ -4,12 +4,12 @@
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        header("Location: /Project");
+        header("Location: " . BASE);
         exit();
     }
 
-    if (!$_SESSION['role_id'] === 3) {
-        header("Location: /Project");
+    if ($_SESSION['role_id'] != 3) {
+        header("Location: " . BASE);
         exit();
     } 
     
@@ -17,7 +17,7 @@
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
         if(!$id) {
-            header("Location: users.php");
+            header("Location: index.php");
             exit();
         }
 
@@ -28,7 +28,7 @@
         $updateRow = $selectOneStatement->fetch();
     }
     else {
-        header("Location: users.php");
+        header("Location: index.php");
         exit();
     }
 ?>

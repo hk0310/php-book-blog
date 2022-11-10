@@ -4,12 +4,12 @@
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        header("Location: /Project");
+        header("Location: " . BASE);
         exit();
     }
 
-    if (!$_SESSION['role_id'] === 3) {
-        header("Location: /Project");
+    if ($_SESSION['role_id'] != 3) {
+        header("Location: " . BASE);
         exit();
     } 
 ?>

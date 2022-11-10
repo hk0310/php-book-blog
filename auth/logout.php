@@ -1,9 +1,10 @@
 <?php
     session_start();
+    require(".." . DIRECTORY_SEPARATOR . "constants.php");
 
     if(isset($_SESSION["username"])) {
         session_destroy();
-        header("Location: /Project");
+        header("Location: " . BASE);
         exit();
     }
 ?>
