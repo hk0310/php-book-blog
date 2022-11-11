@@ -1,7 +1,7 @@
 <nav>
     <ul>
-        <li><a href="<?= BASE ?>/index.php">Home</a></li>
-        <li>Browse</li>
+        <li><a href="<?= BASE ?>">Home</a></li>
+        <li><a href="<?= BASE ?>/books/">Books</a></li>
         <li>About Us</li>
     </ul>
 
