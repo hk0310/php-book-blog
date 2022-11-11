@@ -1,11 +1,16 @@
 <?php
     require(".." . DIRECTORY_SEPARATOR . "constants.php");
+    require(CONNECT_PATH);
     session_start();
 
     if(!isset($_SESSION['username']) || $_SESSION['role_id'] <= 1) {
         header("Location: " . BASE);
         exit();
     }
+
+    $query = "SELECT * FROM genres";
+    $statement = $db->prepare($query);
+    $statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +22,7 @@
 </head>
 <body>
     <?php include(HEADER_PATH) ?>
-    <form action="book-process.php" method="post">
+    <form action="book-process.php" method="post" enctype='multipart/form-data'>
         <fieldset>
             <p>
                 <label for="title">Title</label>
@@ -25,13 +30,17 @@
             </p>
 
             <p>
-                <label for="pagecount">Page count</label>
-                <input id="pagecount" name="pagecount" type="number" required> 
+                <label for="author">Author</label>
+                <input id="author" name="author" type="text" required>
             </p>
 
             <p>
                 <label for="author">Author</label>
                 <input id="author" name="author" type="text" required>
+
+            <p>
+                <label for="pagecount">Page count</label>
+                <input id="pagecount" name="pagecount" type="number" required> 
             </p>
 
             <p>

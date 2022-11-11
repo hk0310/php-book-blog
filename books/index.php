@@ -2,6 +2,10 @@
     require(".." . DIRECTORY_SEPARATOR . "constants.php");
     require(CONNECT_PATH);
     session_start();
+
+    $query = "SELECT title, author, cover_image_path FROM Books";
+    $statement = $db->prepare($query);
+    $statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -17,5 +21,15 @@
     <?php if($_SESSION["role_id"] > 1): ?>
         <p><a href="book-create.php">Add a new book</a></p>
     <?php endif ?>
+
+    <?php while($row = $statement->fetch()): ?>
+        <?php if($row['cover_image_path']): ?>
+            <img src="<?= $row['cover_image_path'] ?>" alt="<?= $row['title'] ?>_cover">
+        <?php else: ?>
+            <img src="<?= NO_COVER_PATH ?>" alt="no_cover">
+        <?php endif ?>
+        <p><?= $row['title'] ?></p>
+        <p>By <?= $row['author'] ?></p>
+    <?php endwhile ?>
 </body>
 </html>

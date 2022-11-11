@@ -14,6 +14,7 @@ if ($_SESSION['role_id'] < 2) {
 }
 
 // Variables for keeping track of errors
+$hasEmpty = false;
 $errorFlag = false;
 $errors = [
     'title' => ["isEmpty" => false, "otherError" => ""],
@@ -56,21 +57,22 @@ if (!$errors['publisheddate']['isEmpty']) {
 $imagePath = validateAndSaveImage();
 
 $command = filter_input(INPUT_POST, 'command', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+print_r($_POST);
 
-if ($command == 'create' && !$errorFlag) {
-    $query = 'INSERT INTO Books(book_name, synopsis, page_count, date_published, author, cover_image_path) VALUES(:title, :synopsis, :page_count, :date_published, :author, :imagePath)';
-    $statement = $db->prepare($query);
-    $statement->bindValue(':title', $title);
-    $statement->bindValue(':synopsis', $synopsis);
-    $statement->bindValue(':page_count', $pageCount);
-    $statement->bindValue(':date_published', $date);
-    $statement->bindValue(':author', $author);
-    $statement->bindValue(':imagePath', $imagePath);
-    $statement->execute();
+// if ($command == 'create' && !$errorFlag) {
+//     $query = 'INSERT INTO Books(title, synopsis, page_count, date_published, author, cover_image_path) VALUES(:title, :synopsis, :page_count, :date_published, :author, :imagePath)';
+//     $statement = $db->prepare($query);
+//     $statement->bindValue(':title', $title);
+//     $statement->bindValue(':synopsis', $synopsis);
+//     $statement->bindValue(':page_count', $pageCount);
+//     $statement->bindValue(':date_published', $date);
+//     $statement->bindValue(':author', $author);
+//     $statement->bindValue(':imagePath', $imagePath);
+//     $statement->execute();
 
-    header('Location: ' . BASE . '\/books/');
-    exit();
-}
+//     header('Location: ' . BASE . '\/books/');
+//     exit();
+// }
 
 function fileIsAnImage($tempPath, $newPath) {
     $allowedMime = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png'];
@@ -83,7 +85,7 @@ function fileIsAnImage($tempPath, $newPath) {
 }
 
 function validateAndSaveImage() {
-    define("UPLOAD_DIR", "uploads");
+    define('UPLOAD_DIR', 'uploads');
 
     $uploadSuccess = isset($_FILES['cover']) && ($_FILES['cover']['error'] === 0);
 
