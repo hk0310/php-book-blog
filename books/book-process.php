@@ -1,6 +1,10 @@
 <?php
+
+use Gumlet\ImageResize;
+
     require(".." . DIRECTORY_SEPARATOR . "constants.php");
     require(CONNECT_PATH);
+    require(AUTOLOAD_PATH);
     session_start();
 
     if (!isset($_POST['command'])) {
@@ -122,7 +126,17 @@
             $newPath = join(DS, [ROOT, UPLOAD_DIR, basename($filename)]);
             if(fileIsAnImage($tempPath, $newPath)) {
                 move_uploaded_file($tempPath, $newPath);
-                return join('/', [BASE, UPLOAD_DIR, basename($filename)]);
+
+                $fileExt = '.' . pathinfo($newPath, PATHINFO_EXTENSION);
+
+                $image = new ImageResize($newPath);
+                $image->resizeToWidth(125);
+                $resizedName = basename($filename, $fileExt) . "_resized{$fileExt}";
+                $image->save(ROOT . DS . UPLOAD_DIR . DS . $resizedName);
+
+                unlink($newPath);
+
+                return join('/', [BASE, UPLOAD_DIR, $resizedName]);
             }
             return null;
         }
