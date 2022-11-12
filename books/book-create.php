@@ -35,8 +35,13 @@
             </p>
 
             <p>
-                <label for="author">Author</label>
-                <input id="author" name="author" type="text" required>
+                <label for="genres">Genres</label>
+                <select id="genres" name="genres[]" multiple required>
+                    <?php while($row = $statement->fetch()): ?>
+                        <option value="<?= $row['genre_id'] ?>"><?= $row['genre_name'] ?></option>
+                    <?php endwhile ?>
+                </select>
+            </p>
 
             <p>
                 <label for="pagecount">Page count</label>

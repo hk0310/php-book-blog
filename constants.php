@@ -5,5 +5,5 @@
     define("BASE", str_replace('\\', '/', substr(ROOT, $startIndex)));
     define("CONNECT_PATH", ROOT . DS . "misc" . DS . "connect.php");
     define("HEADER_PATH", ROOT . DS . "misc" . DS . "header.php");
-    define("NO_COVER_PATH", ROOT . DS . "uploads" . "no_cover.png");
+    define("NO_COVER_PATH", BASE . "/uploads/no_cover.png");
 ?>
