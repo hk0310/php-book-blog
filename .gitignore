@@ -23,3 +23,4 @@ vendor/gumlet/php-image-resize/test/ImageResizeTest.php
 vendor/gumlet/php-image-resize/test/ressources/test_bmp.bmp
 vendor/gumlet/php-image-resize/test/ressources/test_webp.webp
 vendor/gumlet/php-image-resize/test/ressources/test_xmp.jpg
+uploads/

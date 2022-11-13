@@ -19,6 +19,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a Book</title>
+    <script type="text/javascript" src='https://cdn.tiny.cloud/1/ttropo0sdn9lxhwx30krozgrjul57zo9sqlm8t48wf6jadbd/tinymce/6/tinymce.min.js' referrerpolicy="origin"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea',
+            plugins: ['autolink', 'link', 'lists advlist', 'autoresize', 'wordcount', 'visualchars'],
+            toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | ' +
+                     'bullist numlist outdent indent | visualchars |' +
+                     'forecolor backcolor emoticons | help | wordcount'
+        });
+    </script>
 </head>
 <body>
     <?php include(HEADER_PATH) ?>
