@@ -3,7 +3,7 @@
     require(CONNECT_PATH);
     session_start();
 
-    $query = "SELECT title, author, cover_image_path FROM Books";
+    $query = "SELECT * FROM Books";
     $statement = $db->prepare($query);
     $statement->execute();
 ?>
@@ -30,6 +30,9 @@
         <?php endif ?>
         <p><?= $row['title'] ?></p>
         <p>By <?= $row['author'] ?></p>
+        <?php if($_SESSION['role_id'] > 1): ?>
+            <p><a href="book-edit.php?id=<?= $row['book_id'] ?>">Make Changes</a></p>
+        <?php endif ?>
     <?php endwhile ?>
 </body>
 </html>

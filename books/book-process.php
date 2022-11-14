@@ -8,12 +8,12 @@ use Gumlet\ImageResize;
     session_start();
 
     if (!isset($_POST['command'])) {
-        header('Location: ' . BASE);
+        header('Location: ' . BASE . "/books");
         exit();
     }
 
     if ($_SESSION['role_id'] < 2) {
-        header('Location: ' . BASE);
+        header('Location: ' . BASE . "/books");
         exit();
     }
 
@@ -104,6 +104,90 @@ use Gumlet\ImageResize;
         header('Location: ' . BASE . '\/books/');
         exit();
     }
+    elseif($command == 'update' && !$errorFlag) {
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $removeImage = filter_input(INPUT_POST, 'removeImage', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if($id !== false) {
+            $bookQuery = "UPDATE Books SET title = :title, synopsis = :synopsis, page_count = :pageCount, date_published = :datePublished, author=:author WHERE book_id = :id";
+            $bookStatement = $db->prepare($bookQuery);
+            $bookStatement->bindValue(':title', $title);
+            $bookStatement->bindValue(':synopsis', $synopsis);
+            $bookStatement->bindValue(':pageCount', $pageCount);
+            $bookStatement->bindValue(':datePublished', $date);
+            $bookStatement->bindValue(':author', $author);
+            $bookStatement->bindValue(':id', $id);
+            $bookStatement->execute();
+
+            $removeGenresQuery = "DELETE FROM Book_Genres WHERE book_id = :id";
+            $removeGenresStatement = $db->prepare($removeGenresQuery);
+            $removeGenresStatement->bindValue(':id', $id);
+            $removeGenresStatement->execute();
+
+            foreach($genres as $genre) {
+                $genreQuery = 'INSERT INTO Book_genres VALUES (:book_id, :genre_id)';
+                $genreStatement = $db->prepare($genreQuery);
+                $genreStatement->bindValue(':book_id', $id);
+                $genreStatement->bindValue(':genre_id', $genre);
+                $genreStatement->execute();
+            }
+
+            if($imagePath != null) {
+
+                $coverQuery = "SELECT cover_image_path FROM Books WHERE book_id = :id";
+                $coverStatement = $db->prepare($coverQuery);
+                $coverStatement->bindValue(':id', $id);
+                $coverStatement->execute();
+                $oldPath = $coverStatement->fetch()['cover_image_path'];
+
+                if($oldPath != null) {
+                    $startPos = strrpos($oldPath, UPLOAD_DIR);
+                    $realOldPath = str_replace('/', DS, ROOT . DS . substr($oldPath, $startPos));
+                    unlink(realpath($realOldPath));
+                }
+
+                $updateCoverQuery = "UPDATE Books SET cover_image_path = :imagePath WHERE book_id = :id";
+                $updateCoverStatement = $db->prepare($updateCoverQuery);
+                $updateCoverStatement->bindValue(':id', $id);
+                $updateCoverStatement->bindValue(':imagePath', $imagePath);
+                $updateCoverStatement->execute();
+            }
+            else if($removeImage == "on") {
+                $coverQuery = "SELECT cover_image_path FROM Books WHERE book_id = :id";
+                $coverStatement = $db->prepare($coverQuery);
+                $coverStatement->bindValue(':id', $id);
+                $coverStatement->execute();
+                $oldPath = $coverStatement->fetch()['cover_image_path'];
+                $startPos = strrpos($oldPath, UPLOAD_DIR);
+                $realOldPath = str_replace('/', DS, ROOT . DS . substr($oldPath, $startPos));
+                if(realpath($realOldPath)) {
+                    unlink(realpath($realOldPath));
+                }
+
+                $removeCoverQuery = "UPDATE Books SET cover_image_path = null WHERE book_id = :id";
+                $removeCoverStatement = $db->prepare($removeCoverQuery);
+                $removeCoverStatement->bindValue(':id', $id);
+                $removeCoverStatement->execute();
+            }
+
+            header('Location: ' . BASE . '\/books/');
+            exit();
+        }
+        else {
+            $errors['id']['otherError'] = "The provided id is invalid.";
+        }
+    }
+    elseif($command == 'delete') {
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        if($id !== false) {
+            $query = "DELETE FROM Books WHERE book_id = :id LIMIT 1";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':id', $id);
+            $statement->execute();
+        }
+
+        header('Location: ' . BASE . '\/books/');
+        exit();
+    }
 
     function fileIsAnImage($tempPath, $newPath) {
         $allowedMime = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png'];
@@ -116,8 +200,6 @@ use Gumlet\ImageResize;
     }
 
     function validateAndSaveImage() {
-        define('UPLOAD_DIR', 'uploads');
-
         $uploadSuccess = isset($_FILES['cover']) && ($_FILES['cover']['error'] === 0);
 
         if($uploadSuccess) {

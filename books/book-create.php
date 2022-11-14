@@ -4,7 +4,7 @@
     session_start();
 
     if(!isset($_SESSION['username']) || $_SESSION['role_id'] <= 1) {
-        header("Location: " . BASE);
+        header("Location: " . BASE . "/books");
         exit();
     }
 
