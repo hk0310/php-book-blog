@@ -7,5 +7,6 @@
     define("HEADER_PATH", ROOT . DS . "misc" . DS . "header.php");
     define("AUTOLOAD_PATH", ROOT . DS . "vendor" . DS . "autoload.php");
     define("NO_COVER_PATH", BASE . "/uploads/no_cover.png");
-    define('UPLOAD_DIR', 'uploads');
+    define("UPLOAD_DIR", "uploads");
+    define("SLUG_GEN_PATH", ROOT . DS . "misc" . DS . "slug-generator.php");
 ?>

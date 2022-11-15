@@ -5,6 +5,7 @@ use Gumlet\ImageResize;
     require(".." . DIRECTORY_SEPARATOR . "constants.php");
     require(CONNECT_PATH);
     require(AUTOLOAD_PATH);
+    require(SLUG_GEN_PATH);
     session_start();
 
     if (!isset($_POST['command'])) {
@@ -72,12 +73,14 @@ use Gumlet\ImageResize;
         }
     }
 
+    $slug = generateSlug($title);
+
     $imagePath = validateAndSaveImage();
 
     $command = filter_input(INPUT_POST, 'command', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     if ($command == 'create' && !$errorFlag) {
-        $bookQuery = 'INSERT INTO Books(title, synopsis, page_count, date_published, author, cover_image_path) VALUES(:title, :synopsis, :page_count, :date_published, :author, :imagePath)';
+        $bookQuery = 'INSERT INTO Books(title, synopsis, page_count, date_published, author, cover_image_path, slug_text) VALUES(:title, :synopsis, :page_count, :date_published, :author, :imagePath, :slug)';
         $bookStatement = $db->prepare($bookQuery);
         $bookStatement->bindValue(':title', $title);
         $bookStatement->bindValue(':synopsis', $synopsis);
@@ -85,6 +88,7 @@ use Gumlet\ImageResize;
         $bookStatement->bindValue(':date_published', $date);
         $bookStatement->bindValue(':author', $author);
         $bookStatement->bindValue(':imagePath', $imagePath);
+        $bookStatement->bindValue(':slug', $slug);
 
         $bookStatement->execute();
 
@@ -108,13 +112,14 @@ use Gumlet\ImageResize;
         $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         $removeImage = filter_input(INPUT_POST, 'removeImage', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if($id !== false) {
-            $bookQuery = "UPDATE Books SET title = :title, synopsis = :synopsis, page_count = :pageCount, date_published = :datePublished, author=:author WHERE book_id = :id";
+            $bookQuery = "UPDATE Books SET title = :title, synopsis = :synopsis, page_count = :pageCount, date_published = :datePublished, author = :author, slug_text = :slug WHERE book_id = :id";
             $bookStatement = $db->prepare($bookQuery);
             $bookStatement->bindValue(':title', $title);
             $bookStatement->bindValue(':synopsis', $synopsis);
             $bookStatement->bindValue(':pageCount', $pageCount);
             $bookStatement->bindValue(':datePublished', $date);
             $bookStatement->bindValue(':author', $author);
+            $bookStatement->bindValue(':slug', $slug);
             $bookStatement->bindValue(':id', $id);
             $bookStatement->execute();
 
@@ -179,6 +184,11 @@ use Gumlet\ImageResize;
     elseif($command == 'delete') {
         $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         if($id !== false) {
+            $removeGenresQuery = "DELETE FROM Book_Genres WHERE book_id = :id";
+            $removeGenresStatement = $db->prepare($removeGenresQuery);
+            $removeGenresStatement->bindValue(':id', $id);
+            $removeGenresStatement->execute();
+
             $query = "DELETE FROM Books WHERE book_id = :id LIMIT 1";
             $statement = $db->prepare($query);
             $statement->bindValue(':id', $id);
