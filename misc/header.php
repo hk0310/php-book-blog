@@ -1,8 +1,8 @@
 <nav>
     <ul>
         <li><a href="<?= BASE ?>">Home</a></li>
-        <li><a href="<?= BASE ?>/books/">Books</a></li>
-        <li>About Us</li>
+        <li><a href="<?= BASE ?>/books">Books</a></li>
+        <li><a href="<?= BASE ?>/genres">Genres</a></li>
     </ul>
 
     <form action="#" method="post">

@@ -38,7 +38,7 @@
     <?php include(HEADER_PATH) ?>
     <?php if ($id !== false && !is_null($id) && !is_null($slug) && !empty($row)) : ?>
         <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] > 1) : ?>
-            <p><a href="book-edit.php?id=<?= $row['book_id'] ?>">Make Changes</a></p>
+            <p><a href="<?= BASE ?>/books/book-edit.php?id=<?= $row['book_id'] ?>">Make Changes</a></p>
         <?php endif ?>
 
         <p><?= $row['title'] ?></p>
@@ -53,7 +53,7 @@
         <p>Published on <?= date("F jS, Y", strtotime($row['date_published'])) ?>, <?= $row['page_count'] ?> pages</p>
         <?= htmlspecialchars_decode($row['synopsis']) ?>
     <?php else : ?>
-        <?php if (isset($_SESSION['role_id']) && $_SESSION["role_id"] > 1) : ?>
+        <?php if (isset($_SESSION['role_id']) && $_SESSION["role_id"] > 1): ?>
             <p><a href="book-create.php">Add a new book</a></p>
         <?php endif ?>
 
@@ -66,7 +66,7 @@
 
             <p><a href="<?= $row['book_id'] ?>/<?= $row['slug_text'] ?>"><?= $row['title'] ?></a></p>
             <p>By <?= $row['author'] ?></p>
-            <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] > 1) : ?>
+            <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] > 1): ?>
                 <p><a href="book-edit.php?id=<?= $row['book_id'] ?>">Make Changes</a></p>
             <?php endif ?>
         <?php endwhile ?>

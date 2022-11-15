@@ -1,2 +1,3 @@
 RewriteEngine on
 RewriteRule ^/?books/([0-9]+)/([a-zA-Z-]+)/?$ books/index.php?id=$1&slug=$2
+RewriteRule ^/?genres/([0-9]+)/([a-zA-Z-]+)/?$ genres/index.php?id=$1&slug=$2

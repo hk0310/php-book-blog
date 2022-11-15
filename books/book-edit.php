@@ -3,7 +3,7 @@
     require(CONNECT_PATH);
     session_start();
 
-    if($_SESSION['role_id'] < 2) {
+    if(!isset($_SESSION['role_id']) || $_SESSION['role_id'] < 2) {
         header("Location: " . BASE . "/books");
         exit();
     }

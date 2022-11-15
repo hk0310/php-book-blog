@@ -3,6 +3,11 @@
     require(CONNECT_PATH);
     session_start();
 
+    if(!isset($_SESSION['username'])) {
+        header("Location: " . BASE);
+        exit();
+    }
+
     if(!isset($_POST['command'])) {
         header("Location: " . BASE);
         exit();
