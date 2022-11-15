@@ -105,7 +105,7 @@ use Gumlet\ImageResize;
             $genreStatement->execute();
         }
 
-        header('Location: ' . BASE . '\/books/');
+        header('Location: ' . BASE . '/books');
         exit();
     }
     elseif($command == 'update' && !$errorFlag) {
@@ -174,7 +174,7 @@ use Gumlet\ImageResize;
                 $removeCoverStatement->execute();
             }
 
-            header('Location: ' . BASE . '\/books/');
+            header('Location: ' . BASE . '/books');
             exit();
         }
         else {
@@ -195,7 +195,7 @@ use Gumlet\ImageResize;
             $statement->execute();
         }
 
-        header('Location: ' . BASE . '\/books/');
+        header('Location: ' . BASE . "/books");
         exit();
     }
 
