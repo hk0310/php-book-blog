@@ -19,9 +19,84 @@
         }
     }
     else {
-        $query = "SELECT * FROM Books";
-        $statement = $db->prepare($query);
-        $statement->execute();
+        $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $ascSymbol = '△';
+        $descSymbol = '▽';
+        $beingSorted = [
+            'title' => ['symbol' => '', 'sql' => ''],
+            'author' => ['symbol' => '', 'sql' => ''], 
+            'date_published' => ['symbol' => '', 'sql' => '']
+        ];
+
+        if(!is_null($sort) && !empty($sort)) {
+            $query = '';
+            $statement = null;
+
+            if($sort === "book") {
+                if(isset($_SESSION['bookSort']) && $_SESSION['bookSort'] === 'ASC') {
+                    $beingSorted['title']['sql'] = 'DESC';
+                    $beingSorted['title']['symbol'] = $descSymbol;
+                    $_SESSION['bookSort'] = 'DESC';
+                }
+                elseif(isset($_SESSION['bookSort']) && $_SESSION['bookSort'] === 'DESC') {
+                    $beingSorted['title']['sql'] = 'ASC';
+                    $beingSorted['title']['symbol'] = $ascSymbol;
+                    $_SESSION['bookSort'] = 'ASC';
+                }
+                else {
+                    $_SESSION['bookSort'] = 'ASC';
+                    $beingSorted['title']['sql'] = 'ASC';
+                    $beingSorted['title']['symbol'] = $ascSymbol;
+                }
+            }
+            elseif($sort === "author") {
+                if(isset($_SESSION['bookSort']) && $_SESSION['bookSort'] === 'ASC') {
+                    $beingSorted['author']['sql'] = 'DESC';
+                    $beingSorted['author']['symbol'] = $descSymbol;
+                    $_SESSION['bookSort'] = 'DESC';
+                }
+                elseif(isset($_SESSION['bookSort']) && $_SESSION['bookSort'] === 'DESC') {
+                    $beingSorted['author']['sql'] = 'ASC';
+                    $beingSorted['author']['symbol'] = $ascSymbol;
+                    $_SESSION['bookSort'] = 'ASC';
+                }
+                else {
+                    $_SESSION['bookSort'] = 'ASC';
+                    $beingSorted['author']['sql'] = 'ASC';
+                    $beingSorted['author']['symbol'] = $ascSymbol;
+                }
+            }
+            if($sort === "date") {
+                if(isset($_SESSION['bookSort']) && $_SESSION['bookSort'] === 'ASC') {
+                    $beingSorted['date_published']['sql'] = 'DESC';
+                    $beingSorted['date_published']['symbol'] = $descSymbol;
+                    $_SESSION['bookSort'] = 'DESC';
+                }
+                elseif(isset($_SESSION['bookSort']) && $_SESSION['bookSort'] === 'ASC') {
+                    $beingSorted['date_published']['sql'] = 'ASC';
+                    $beingSorted['date_published']['symbol'] = $ascSymbol;
+                    $_SESSION['bookSort'] = 'ASC';
+                }
+                else {
+                    $_SESSION['bookSort'] = 'ASC';
+                    $beingSorted['date_published']['sql'] = 'ASC';
+                    $beingSorted['date_published']['symbol'] = $ascSymbol;
+                }
+            }
+
+            foreach($beingSorted as $column => $info) {
+                if(!empty($info['sql'])) {
+                    $query = "SELECT * FROM Books ORDER BY {$column} {$info['sql']}";
+                    $statement = $db->prepare($query);
+                    $statement->execute();
+                }
+            }
+        }
+        else {
+            $query = "SELECT * FROM Books";
+            $statement = $db->prepare($query);
+            $statement->execute();
+        }
     }
 ?>
 
@@ -53,6 +128,11 @@
         <p>Published on <?= date("F jS, Y", strtotime($row['date_published'])) ?>, <?= $row['page_count'] ?> pages</p>
         <?= htmlspecialchars_decode($row['synopsis']) ?>
     <?php else : ?>
+        <p>
+            <a href="?sort=book">Book<strong><?= $beingSorted['title']['symbol'] ?></strong></a>
+            <a href="?sort=author">Author<strong><?= $beingSorted['author']['symbol'] ?></strong></a>
+            <a href="?sort=date">Published Date<strong><?= $beingSorted['date_published']['symbol'] ?></strong></a>
+        </p>
         <?php if (isset($_SESSION['role_id']) && $_SESSION["role_id"] > 1): ?>
             <p><a href="book-create.php">Add a new book</a></p>
         <?php endif ?>
