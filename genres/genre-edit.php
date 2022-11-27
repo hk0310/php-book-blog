@@ -77,7 +77,7 @@
         </p>
         <input type="hidden" name="id" value="<?= $row['genre_id'] ?>">
         <button type="submit" value="update" name="command">Update Genre</button>
-        <button type="submit" value="delete" name="command">Delete Genre</button>
+        <button type="submit" value="delete" name="command" onclick="return confirm('Do you really want to delete this genre?')">Delete Genre</button>
     </form>
 </body>
 </html>

@@ -184,6 +184,22 @@ use Gumlet\ImageResize;
     elseif($command == 'delete') {
         $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         if($id !== false) {
+            $coverQuery = "SELECT cover_image_path FROM Books WHERE book_id = :id";
+            $coverStatement = $db->prepare($coverQuery);
+            $coverStatement->bindValue(':id', $id);
+            $coverStatement->execute();
+            $oldPath = $coverStatement->fetch()['cover_image_path'];
+            $startPos = strrpos($oldPath, UPLOAD_DIR);
+            $realOldPath = str_replace('/', DS, ROOT . DS . substr($oldPath, $startPos));
+            if(realpath($realOldPath)) {
+                unlink(realpath($realOldPath));
+            }
+
+            $removeCoverQuery = "UPDATE Books SET cover_image_path = null WHERE book_id = :id";
+            $removeCoverStatement = $db->prepare($removeCoverQuery);
+            $removeCoverStatement->bindValue(':id', $id);
+            $removeCoverStatement->execute();
+
             $removeGenresQuery = "DELETE FROM Book_Genres WHERE book_id = :id";
             $removeGenresStatement = $db->prepare($removeGenresQuery);
             $removeGenresStatement->bindValue(':id', $id);
@@ -223,7 +239,7 @@ use Gumlet\ImageResize;
 
                 $image = new ImageResize($newPath);
                 $image->resizeToWidth(125);
-                $resizedName = basename($filename, $fileExt) . "_resized{$fileExt}";
+                $resizedName = basename($filename, $fileExt) . "_resized_" . strtotime(date("Y-m-d")) . "{$fileExt}";
                 $image->save(ROOT . DS . UPLOAD_DIR . DS . $resizedName);
 
                 unlink($newPath);

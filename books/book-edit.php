@@ -109,7 +109,7 @@
         <p>
             <input type="hidden" name="id" value="<?= $bookRow['book_id'] ?>">
             <button type="submit" value="update" name="command">Update Book</button>
-            <button type="submit" value="delete" name="command">Delete Book</button>
+            <button type="submit" value="delete" name="command" onclick="return confirm('Do you really want to delete this book?')">Delete Book</button>
         </p>
     </form>
 </body>
