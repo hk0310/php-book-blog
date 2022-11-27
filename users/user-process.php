@@ -3,11 +3,6 @@
     require(CONNECT_PATH);
     session_start();
 
-    if(!isset($_SESSION['username'])) {
-        header("Location: " . BASE);
-        exit();
-    }
-
     if(!isset($_POST['command'])) {
         header("Location: " . BASE);
         exit();
@@ -20,6 +15,7 @@
         'email' => ["isEmpty" => false, "otherError" => ""],
         'password' => ["isEmpty" => false, "otherError" => ""],
         'passwordConfirm' => ["isEmpty" => false, "otherError" => ""],
+        'captcha' => ["isEmpty" => false, "otherError" => ""],
     ];
 
     // Checks for empty inputs.
@@ -53,6 +49,16 @@
         $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $passwordConfirm = filter_input(INPUT_POST, "passwordConfirm", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $captcha = filter_input(INPUT_POST, 'captcha', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $captchaSession = $_SESSION['code'];
+        
+        // Validates captcha.
+        if($captcha !== null && $captchaSession !== null) {
+            if(strtolower($captcha) != strtolower(($captchaSession))) {
+                $errors['captcha']['otherError'] = "The submitted captcha does not match the picture.";
+                $errorFlag = true;
+            }
+        }
 
         // Validates the availability of the chosen username.
         $userAvailableQuery = "SELECT username FROM Users";
