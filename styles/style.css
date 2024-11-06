@@ -1,0 +1,138 @@
+:root {
+  --primary-color: #016a37; /* Dark green */
+  --primary-color-darken: #005029;
+  --secondary-color: #d4c115; /* Gold */
+  --secondary-color-darken: #c1b014;
+  --light-color: #fffff0; /* Ivory */
+  --light-color-darken: #e7e7da;
+}
+
+header {
+  margin-bottom: 20px;
+  padding: 0px;
+  background-color: var(--primary-color);
+}
+
+.nav-link {
+  color: #fff !important;
+  transition: color 0.3s ease !important;
+}
+
+.nav-link:hover {
+  color: var(--secondary-color) !important;
+}
+
+.search-form {
+  margin-top: 10px !important;
+}
+
+.search-form input[type="text"] {
+  border-color: var(--secondary-color) !important;
+}
+
+.search-form input[type="text"]:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 235, 59, 0.25);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 0px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color-darken);
+  border-color: var(--primary-color-darken);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-color-darken);
+  border-color: var(--secondary-color-darken);
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.bg-light {
+  background-color: var(--light-color) !important;
+}
+
+.text-light {
+  color: var(--light-color) !important;
+}
+
+.border-primary {
+  border-color: var(--primary-color) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary-color) !important;
+}
+
+fieldset {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003a2e; /* Darker shade of dark green */
+}
+
+input[type="file"] {
+  margin-top: 6px;
+}
+
+.tox-tinymce {
+  border: 1px solid var(--primary-color) !important;
+}

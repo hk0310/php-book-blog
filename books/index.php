@@ -107,50 +107,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= STYLE_PATH ?>" rel="stylesheet">
 </head>
 
 <body>
     <?php include(HEADER_PATH) ?>
     <?php if ($id !== false && !is_null($id) && !is_null($slug) && !empty($row)) : ?>
         <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] > 1) : ?>
-            <p><a href="<?= BASE ?>/books/book-edit.php?id=<?= $row['book_id'] ?>">Make Changes</a></p>
+            <p><a href="<?= BASE ?>/books/book-edit.php?id=<?= $row['book_id'] ?>" class="btn btn-primary">Make Changes</a></p>
         <?php endif ?>
 
-        <p><?= $row['title'] ?></p>
-        <p>By <?= $row['author'] ?></p>
-
-        <?php if ($row['cover_image_path']) : ?>
-            <img src="<?= $row['cover_image_path'] ?>" alt="<?= $row['title'] ?>_cover">
-        <?php else : ?>
-            <img src="<?= NO_COVER_PATH ?>" alt="no_cover">
-        <?php endif ?>
-
-        <p>Published on <?= date("F jS, Y", strtotime($row['date_published'])) ?>, <?= $row['page_count'] ?> pages</p>
-        <?= htmlspecialchars_decode($row['synopsis']) ?>
-    <?php else : ?>
-        <p>
-            <a href="?sort=book">Book<strong><?= $beingSorted['title']['symbol'] ?></strong></a>
-            <a href="?sort=author">Author<strong><?= $beingSorted['author']['symbol'] ?></strong></a>
-            <a href="?sort=date">Published Date<strong><?= $beingSorted['date_published']['symbol'] ?></strong></a>
-        </p>
-        <?php if (isset($_SESSION['role_id']) && $_SESSION["role_id"] > 1): ?>
-            <p><a href="book-create.php">Add a new book</a></p>
-        <?php endif ?>
-
-        <?php while ($row = $statement->fetch()) : ?>
-            <?php if ($row['cover_image_path']) : ?>
-                <img src="<?= $row['cover_image_path'] ?>" alt="<?= $row['title'] ?>_cover">
-            <?php else : ?>
-                <img src="<?= NO_COVER_PATH ?>" alt="no_cover">
-            <?php endif ?>
-
-            <p><a href="<?= $row['book_id'] ?>/<?= $row['slug_text'] ?>"><?= $row['title'] ?></a></p>
+        <div class="container">
+            <h1><?= $row['title'] ?></h1>
             <p>By <?= $row['author'] ?></p>
-            <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] > 1): ?>
-                <p><a href="book-edit.php?id=<?= $row['book_id'] ?>">Make Changes</a></p>
+
+            <?php if ($row['cover_image_path']) : ?>
+                <img src="<?= $row['cover_image_path'] ?>" alt="<?= $row['title'] ?>_cover" class="img-fluid">
+            <?php else : ?>
+                <img src="<?= NO_COVER_PATH ?>" alt="no_cover" class="img-fluid">
             <?php endif ?>
-        <?php endwhile ?>
+
+            <p>Published on <?= date("F jS, Y", strtotime($row['date_published'])) ?>, <?= $row['page_count'] ?> pages</p>
+            <p><?= htmlspecialchars_decode($row['synopsis']) ?></p>
+        </div>
+    <?php else : ?>
+        <div class="container">
+            <p>
+                <a href="?sort=book" class="btn btn-secondary">Book<strong><?= $beingSorted['title']['symbol'] ?></strong></a>
+                <a href="?sort=author" class="btn btn-secondary">Author<strong><?= $beingSorted['author']['symbol'] ?></strong></a>
+                <a href="?sort=date" class="btn btn-secondary">Published Date<strong><?= $beingSorted['date_published']['symbol'] ?></strong></a>
+            </p>
+            <?php if (isset($_SESSION['role_id']) && $_SESSION["role_id"] > 1): ?>
+                <p><a href="book-create.php" class="btn btn-primary">Add a new book</a></p>
+            <?php endif ?>
+
+            <div class="row">
+                <?php while ($row = $statement->fetch()) : ?>
+                    <div class="col-md-4">
+                        <?php if ($row['cover_image_path']) : ?>
+                            <img src="<?= $row['cover_image_path'] ?>" alt="<?= $row['title'] ?>_cover" class="img-fluid">
+                        <?php else : ?>
+                            <img src="<?= NO_COVER_PATH ?>" alt="no_cover" class="img-fluid">
+                        <?php endif ?>
+
+                        <h3><a href="<?= $row['book_id'] ?>/<?= $row['slug_text'] ?>"><?= $row['title'] ?></a></h3>
+                        <p>By <?= $row['author'] ?></p>
+                        <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] > 1): ?>
+                            <p><a href="book-edit.php?id=<?= $row['book_id'] ?>" class="btn btn-primary">Make Changes</a></p>
+                        <?php endif ?>
+                    </div>
+                <?php endwhile ?>
+            </div>
+        </div>
     <?php endif ?>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
